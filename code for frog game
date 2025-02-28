@@ -1,0 +1,25 @@
+from pygame import *
+
+init()
+width = 600
+height = 400
+screen = display.set_mode((width, height))
+display.set_caption('Frogger')
+
+# Load and scale image
+Frogpic = image.load("frog.jpg") 
+Frogpic = transform.scale(Frogpic, (100, 100))
+
+endGame = False
+
+while not endGame:
+    for e in event.get():
+        if e.type == QUIT:
+            endGame = True
+    
+    screen.fill((0, 0, 0))  
+    draw.rect(screen, (255,255,255), (0,0,width,20))
+    screen.blit(Frogpic, (100,100))
+    display.update()
+    time.delay(100)
+    
