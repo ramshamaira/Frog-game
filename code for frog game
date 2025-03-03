@@ -1,4 +1,3 @@
-
 from pygame import *
 
 init()
@@ -6,9 +5,19 @@ width = 600
 height = 400
 screen = display.set_mode((width, height))
 display.set_caption('Frogger')
+
+BLACK = (0, 0, 0)      # Road
+GREY = (128, 128, 128) # Kerbs
+WHITE = (255, 255, 255) 
+road_width = 300
+kerb_width = (width - road_width) // 2
+
 endGame= False
 Frogpic = image.load("frog.jpg") 
 Frogpic = transform.scale(Frogpic, (100, 100))
+frogRect = Rect((width - 100) // 2, height - 100, 100, 100)
+frog_speed = 10 
+
 
 frogRect = Rect(100,0,40,40)
 mixer.music.load("frog.mp3")
@@ -18,16 +27,35 @@ while  endGame == False:
     for e in event.get():
         if e.type == QUIT:
             endGame = True
+        
+       
         if e.type == KEYDOWN:
-          if e.key == K_s:
-            frogRect.move_ip(0,5)
+            if e.key in [K_w, K_UP] and frogRect.y > 0: 
+                frogRect.move_ip(0, -frog_speed)
+            if e.key in [K_s, K_DOWN] and frogRect.y < height - 100:  
+                frogRect.move_ip(0, frog_speed)
+            if e.key in [K_a, K_LEFT] and frogRect.x > 0:
+                frogRect.move_ip(-frog_speed, 0)
+            if e.key in [K_d, K_RIGHT] and frogRect.x < width - 100:  
+                frogRect.move_ip(frog_speed, 0)
+     
+    screen.fill(WHITE)
+
     
-    screen.fill((0, 0, 0))  
+    draw.rect(screen,GREY, (0, 0, kerb_width, height))  
+    draw.rect(screen,GREY, (kerb_width + road_width, 0, kerb_width, height)) 
+
+    draw.rect(screen, BLACK, (kerb_width, 0, road_width, height))
+    
+   
     draw.rect(screen, (255,255,255), (0,0,width,20))
     screen.blit(Frogpic,frogRect)
     
    
     
+    
     display.update()
     time.delay(30)
     
+    
+
