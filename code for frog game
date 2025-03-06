@@ -1,61 +1,74 @@
 from pygame import *
-
 init()
-width = 600
-height = 400
+width, height = 600, 400
 screen = display.set_mode((width, height))
 display.set_caption('Frogger')
 
-BLACK = (0, 0, 0)      # Road
-GREY = (128, 128, 128) # Kerbs
-WHITE = (255, 255, 255) 
+# Colors
+BLACK = (0, 0, 0)      
+GREY = (128, 128, 128) 
+WHITE = (255, 255, 255)
 road_width = 300
 kerb_width = (width - road_width) // 2
 
-endGame= False
-Frogpic = image.load("frog.jpg") 
-Frogpic = transform.scale(Frogpic, (100, 100))
-frogRect = Rect((width - 100) // 2, height - 100, 100, 100)
-frog_speed = 10 
+Frogpic = image.load("frog.jpg")  
+Frogpic = transform.scale(Frogpic, (50, 50))
+frogRect = Rect((width - 100) // 2, height - 50, 50, 50)
+frog_speed = 10  
 
+Carpic = image.load("car.jpg")  
+Carpic = transform.scale(Carpic, (80, 40))  
 
-frogRect = Rect(100,0,40,40)
+#  car positions
+cars = [
+    {"rect": Rect(200, 0, 80, 40), "speed": 5},
+    {"rect": Rect(350, -100, 80, 40), "speed": 3}
+]
+
 mixer.music.load("frog.mp3")
 mixer.music.play()
 
-while  endGame == False:
+
+endGame = False
+while not endGame:
     for e in event.get():
         if e.type == QUIT:
             endGame = True
-        
-       
-        if e.type == KEYDOWN:
-            if e.key in [K_w, K_UP] and frogRect.y > 0: 
-                frogRect.move_ip(0, -frog_speed)
-            if e.key in [K_s, K_DOWN] and frogRect.y < height - 100:  
-                frogRect.move_ip(0, frog_speed)
-            if e.key in [K_a, K_LEFT] and frogRect.x > 0:
-                frogRect.move_ip(-frog_speed, 0)
-            if e.key in [K_d, K_RIGHT] and frogRect.x < width - 100:  
-                frogRect.move_ip(frog_speed, 0)
      
+    for car in cars:
+        car["rect"].y += car["speed"]
+
+     
+        if car["rect"].y > height:
+            car["rect"].y = -40  
+
+    for c in cars:
+         if car["rect"].colliderect(frogRect):  
+            endGame = True
+
+    # Movement handling
+    keys = key.get_pressed()
+    if keys[K_w] or keys[K_UP]: 
+        frogRect.move_ip(0, -frog_speed)
+    if keys[K_s] or keys[K_DOWN]:  
+        frogRect.move_ip(0, frog_speed)
+    if keys[K_a] or keys[K_LEFT]:
+        frogRect.move_ip(-frog_speed, 0)
+    if keys[K_d] or keys[K_RIGHT]:  
+        frogRect.move_ip(frog_speed, 0)
+
+    # Draw background
     screen.fill(WHITE)
-
-    
-    draw.rect(screen,GREY, (0, 0, kerb_width, height))  
-    draw.rect(screen,GREY, (kerb_width + road_width, 0, kerb_width, height)) 
-
+    draw.rect(screen, GREY, (0, 0, kerb_width, height))  
+    draw.rect(screen, GREY, (kerb_width + road_width, 0, kerb_width, height)) 
     draw.rect(screen, BLACK, (kerb_width, 0, road_width, height))
-    
+
    
-    draw.rect(screen, (255,255,255), (0,0,width,20))
-    screen.blit(Frogpic,frogRect)
-    
+    for c in cars:
+        screen.blit(Carpic, car["rect"].topleft)
+
    
-    
-    
+    screen.blit(Frogpic, frogRect)
+
     display.update()
     time.delay(30)
-    
-    
-
