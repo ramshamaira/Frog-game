@@ -1,5 +1,9 @@
 from pygame import *
+
+
 init()
+
+
 width, height = 600, 400
 screen = display.set_mode((width, height))
 display.set_caption('Frogger')
@@ -19,10 +23,14 @@ frog_speed = 10
 Carpic = image.load("car.jpg")  
 Carpic = transform.scale(Carpic, (80, 40))  
 
+Carpic2 = image.load("car2.jpg")  
+Carpic2 = transform.scale(Carpic2, (80, 40))  
+
+
 #  car positions
 cars = [
-    {"rect": Rect(200, 0, 80, 40), "speed": 5},
-    {"rect": Rect(350, -100, 80, 40), "speed": 3}
+    {"rect": Rect(200, 0, 80, 40), "speed": 5,"image": Carpic},
+    {"rect": Rect(350, -100, 80, 40), "speed": 3,"image": Carpic2}
 ]
 
 mixer.music.load("frog.mp3")
@@ -65,10 +73,12 @@ while not endGame:
 
    
     for c in cars:
-        screen.blit(Carpic, car["rect"].topleft)
+        
+         screen.blit(car["image"], car["rect"].topleft)
 
    
     screen.blit(Frogpic, frogRect)
 
     display.update()
     time.delay(30)
+ 
