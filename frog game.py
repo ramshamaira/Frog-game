@@ -69,13 +69,19 @@ while not endGame:
     # Draw background
     screen.fill(WHITE)
 
-    # Horizontal kerbs
-    draw.rect(screen, GREY, (0, 0, width, 40))  
-    draw.rect(screen, GREY, (0, height - 40, width, 40)) 
+  
+    #river
+    draw.rect(screen, BLUE, (0, 0, width, 80))  
 
-    # Road in the center
-    draw.rect(screen, BLACK, (0, 40, width, height - 80))
+    #kerb
+    draw.rect(screen, GREY, (0, 80, width, 40))  
 
+     #road
+    road_height = height - 80 - 40 - 40 
+    draw.rect(screen, BLACK, (0, 120, width, road_height))  
+    #kerb
+    draw.rect(screen, GREY, (0, 120 + road_height, width, 40))  
+  
     # Draw cars
     for car in cars:
         screen.blit(car["image"], car["rect"].topleft)
