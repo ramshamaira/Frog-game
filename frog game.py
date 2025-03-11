@@ -11,6 +11,7 @@ display.set_caption('Frogger')
 BLACK = (0, 0, 0)      
 GREY = (128, 128, 128) 
 WHITE = (255, 255, 255)
+BLUE  =  (0,0,255)
 
 # Load images
 Frogpic = image.load("frog.jpg")  
