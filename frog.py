@@ -50,7 +50,7 @@ cars = [
 mixer.music.load("frog.mp3")
 mixer.music.play(-1) 
 
-# Timer variables
+# Timer
 max_time = 1000  
 current_time = max_time  
 timer_bar_width = 200  
@@ -59,7 +59,7 @@ timer_x = 10
 # Game loop
 endGame = False
 on_log = False  
-game_over = False  # New flag for stopping game logic
+game_over = False  
 win_game= False
 
 while not endGame:
@@ -69,7 +69,7 @@ while not endGame:
 
     if not game_over and not win_game: 
 
-        # Move cars
+        # cars
         for car in cars:
             car["rect"].move_ip(car["speed"], 0)
             if car["rect"].x < -80:  
@@ -95,7 +95,7 @@ while not endGame:
             print("GAME OVER! The frog fell into the river.")
             game_over = True  
 
-        # Collision detection with cars
+        # Collision cars
         for c in cars:
             if c["rect"].colliderect(frogRect):  
                 print("GAME OVER! The frog got hit by a car.")
@@ -117,7 +117,7 @@ while not endGame:
             if frogRect.right < width:
                 frogRect.move_ip(frog_speed, 0)
 
-        # Timer update
+        # Timer
         current_time -= 2 
         if current_time <= 0:
             print("GAME OVER! Time ran out.")
@@ -133,7 +133,7 @@ while not endGame:
     draw.rect(screen, BROWN, (0, 300, width, 40))  
     draw.rect(screen, GREY, (0, 200, width, 100))  
     draw.rect(screen, BLUE, (0, 100, width, 100))  
-    draw.rect(screen, PINK, (0, 40, width, 60))  # Pink pavement
+    draw.rect(screen, PINK, (0, 40, width, 60))
     draw.rect(screen, BROWN, (0, 0, width, 40))    
 
     # Draw logs
@@ -153,7 +153,7 @@ while not endGame:
     draw.rect(screen, WHITE, (timer_x, 10, timer_bar_width, 20))  
     draw.rect(screen, RED, (timer_x, 10, timer_width, 20))  
 
-    # Display "Game Over" if the game ends
+    # Display
     if game_over:
         font = pygame.font.SysFont("Arial", 50)
         text = font.render("GAME OVER!", True, WHITE)  
